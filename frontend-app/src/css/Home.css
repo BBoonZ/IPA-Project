@@ -1,0 +1,162 @@
+/* รีเซ็ตพื้นฐาน */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* พื้นหลังและ layout */
+body {
+    background: linear-gradient(135deg, #0078ff, #00bcd4);
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ส่วนหัว */
+header.main {
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+header.main h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+header.main h2 {
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+}
+
+/* ฟอร์ม */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+label {
+    font-weight: 600;
+    font-size: 1rem;
+    align-self: flex-start;
+    margin-left: 30%;
+}
+
+input {
+    width: 40%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    border-color: #0078ff;
+    box-shadow: 0 0 4px rgba(0, 120, 255, 0.5);
+}
+
+/* ปุ่ม */
+button[type="submit"] {
+    background-color: #0078ff;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #005fcc;
+    transform: translateY(-2px);
+}
+
+/* ตาราง Router */
+.container {
+    margin: 2rem auto;
+    width: 85%;
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+thead {
+    background-color: #0078ff;
+    color: white;
+}
+
+th,
+td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* สไตล์พื้นฐาน */
+.status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: white;
+    text-align: center;
+}
+
+/* สีตามสถานะ */
+.status.connecting {
+    color: #ffa500;
+    /* ส้ม */
+}
+
+.status.connected {
+    color: #28a745;
+    /* เขียว */
+}
+
+.status.failed {
+    color: #dc3545;
+    /* แดง */
+}
+
+/* ปุ่มจัดการ */
+button.edit {
+    background-color: #ffa500;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-right: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button.edit:hover {
+    background-color: #e08e00;
+}
+
+button.delete {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button.delete:hover {
+    background-color: #d9363e;
+}
