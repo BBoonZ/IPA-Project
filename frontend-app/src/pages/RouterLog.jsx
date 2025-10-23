@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
+import { useParams } from "react-router-dom";
 import LogDisplay from "../components/LogDisplay";
 import "../css/RouterLog.css";
 
 export default function RouterLog() {
+  const { ip } = useParams();
   const [selected, setSelected] = useState("Centralized log");
   const [selectedFile, setSelectedFile] = useState("");
 
@@ -17,38 +19,75 @@ export default function RouterLog() {
     "Config log",
   ];
 
-  const allLogs = {
-    "Centralized log": [
-      "[INFO] Router system initialized",
-      "[WARNING] CPU usage high (87%)",
-    ],
-    "Interface log": ["[INTERFACE] eth0 link up", "[INTERFACE] eth1 down"],
-    "Security log": ["[ERROR] Firewall dropped packet from 10.0.0.5"],
-    "DHCP log": ["[DHCP] Lease granted to 192.168.1.15"],
-    "DNS log": ["[DNS] Request www.google.com → 142.250.196.14"],
-    "Config log": ["[CONFIG] Updated routing table"],
-  };
+  const [allLogs, setAllLogs] = useState({
+    "Centralized log": [],
+    "Interface log": [],
+    "Security log": [],
+    "DHCP log": [],
+    "DNS log": [],
+    "Config log": [],
+  });
 
-  const allLogFiles = {
-    "File-Centralized-log-10152025-0146": [
-      "[INFO] Router system initialized",
-      "[WARNING] CPU usage high (87%)",
-    ],
-    "File-Interface-log-10152025-0146": [
-      "[INTERFACE] eth0 link up",
-      "[INTERFACE] eth1 down",
-    ],
-    "File-Security-log-10152025-0146": [
-      "[ERROR] Firewall dropped packet from 10.0.0.5",
-    ],
-    "File-DHCP-log-10152025-0146": [
-      "[DHCP] Lease granted to 192.168.1.15",
-    ],
-    "File-DNS-log-10152025-0146": [
-      "[DNS] Request www.google.com → 142.250.196.14",
-    ],
-    "File-Config-log-10152025-0146": ["[CONFIG] Updated routing table"],
-  };
+
+  useEffect(() => {
+    const fetchLogs = () => {
+      fetch(`http://localhost:4000/api/logs?ip=${ip}`)
+        .then(res => res.json())
+        .then(data => {
+          const newLogs = {
+            "Centralized log": [],
+            "Interface log": [],
+            "Security log": [],
+            "DHCP log": [],
+            "DNS log": [],
+            "Config log": [],
+          };
+  
+          data.forEach(log => {
+            if (newLogs[log.category]) {
+              newLogs[log.category].push(log.message);
+            } else {
+              newLogs[log.category] = [log.message];
+            }
+          });
+  
+          setAllLogs(newLogs);
+        })
+        .catch(err => console.error("Fetch error:", err));
+    };
+  
+    fetchLogs(); // fetch ครั้งแรก
+    const interval = setInterval(fetchLogs, 20000); // fetch ทุก 20 วินาที
+  
+    return () => clearInterval(interval); // ล้าง interval เวลา component unmount
+  }, []);
+
+  const [allLogFiles, setAllLogFiles] = useState({})
+
+  useEffect(() => {
+    const fetchLogs = () => {
+      fetch(`http://localhost:4000/api/logs/file?ip=${ip}`)
+        .then(res => res.json())
+        .then(data => {
+          // สร้าง object ใหม่โดยใช้ filename เป็น key และ logs เป็น value
+          const newLogFiles = {};
+  
+          data.forEach(logFile => {
+            newLogFiles[logFile.filename] = logFile.logs;
+          });
+  
+          setAllLogFiles(newLogFiles);
+        })
+        .catch(err => console.error("Fetch error:", err));
+    };
+  
+    fetchLogs(); // fetch ครั้งแรก
+    const interval = setInterval(fetchLogs, 20000); // fetch ทุก 20 วินาที
+  
+    return () => clearInterval(interval); // ล้าง interval เวลา component unmount
+  }, []);
+  
+
 
   //ถ้ามีไฟล์เลือกแล้วให้แสดง logs จากไฟล์นั้น ถ้าไม่เลือกให้แสดง log ปัจจุบัน
   const displayLogs =
