@@ -30,7 +30,7 @@
     "password": "cisco"
   },
   {
-    ""ip": "10.0.15.65",
+    "ip": "10.0.15.65",
     "username": "admin",
     "password": "cisco"
   }
