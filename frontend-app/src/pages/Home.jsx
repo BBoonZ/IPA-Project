@@ -1,31 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/Home.css";
 
 export default function HomePage() {
   const [ip, setIp] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const status = "Connecting";
-  const [routers, setRouters] = useState([
-    { id: 1, ip: "192.168.1.1", username: "admin", password: "1234", status: "Connected" },
-    { id: 2, ip: "192.168.1.2", username: "root", password: "abcd", status: "Failed" },
-  ]);
+  const [routers, setRouters] = useState("");
+  const [_id, setObject_id] = useState("");
+
+  useEffect(() => {
+    const fetchRouters = async () => {
+      try {
+        const res = await fetch("http://localhost:4000/api/routers");
+        const data = await res.json();
+        setRouters(data);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    };
+
+    fetchRouters();
+  }, []);
 
   const [editIndex, setEditIndex] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newRouter = { ip, username, password, status };
+    const newRouter = { ip, username, password, _id };
 
     if (editIndex !== null) {
-      // แก้ไขข้อมูล
+      const res = await fetch("http://localhost:4000/api/routers/edit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          object_id: _id,
+          ip,
+          username,
+          password
+        })
+      });
+      const data = await res.json()
+      console.log(data)
+
       const updated = [...routers];
       updated[editIndex] = newRouter;
       setRouters(updated);
       setEditIndex(null);
     } else {
-      // เพิ่มข้อมูลใหม่
+      const res = await fetch("http://localhost:4000/api/routers/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ip,
+          username,
+          password
+        })
+      });
+      const data = await res.json()
+      console.log(data.insertedId)
+
+      const newRouter = {
+        ip,
+        username,
+        password,
+        _id: data.insertedId
+      }
       setRouters([...routers, newRouter]);
     }
 
@@ -35,7 +75,18 @@ export default function HomePage() {
     setPassword("");
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = async (index) => {
+    const router = routers[index]
+    const res = await fetch("http://localhost:4000/api/routers/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        object_id: router._id
+      })
+    });
+    const data = await res.json()
+    console.log(data)
+
     const filtered = routers.filter((_, i) => i !== index);
     setRouters(filtered);
   };
@@ -46,6 +97,7 @@ export default function HomePage() {
     setUsername(router.username);
     setPassword(router.password);
     setEditIndex(index);
+    setObject_id(router._id)
   };
 
   return (
@@ -92,7 +144,6 @@ export default function HomePage() {
               <th>IP</th>
               <th>Username</th>
               <th>Password</th>
-              <th>Status</th>
               <th>จัดการ</th>
             </tr>
           </thead>
@@ -105,18 +156,12 @@ export default function HomePage() {
               </tr>
             ) : (
               routers.map((r, i) => (
-                <tr key={i} onClick={() => window.location.href = `/router/${r.ip}`}>
+                <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{r.ip}</td>
                   <td>{r.username}</td>
                   <td>{r.password}</td>
-                  <td className={
-                    r.status === "Connecting" ? "status connecting" :
-                      r.status === "Connected" ? "status connected" :
-                        r.status === "Failed" ? "status failed" : ""
-                  }>
-                    {r.status}
-                  </td>
+                  {/* <td>{r._id}</td> */}
                   <td>
                     <button
                       className="edit"
@@ -129,6 +174,12 @@ export default function HomePage() {
                       onClick={() => handleDelete(i)}
                     >
                       ลบ
+                    </button>
+                    <button
+                      className="view"
+                      onClick={() => window.location.href = `/router/${r.ip}`}
+                    >
+                      ดูรายละเอียด
                     </button>
                   </td>
                 </tr>

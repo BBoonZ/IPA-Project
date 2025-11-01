@@ -8,7 +8,7 @@ async function rotateLogs() {
 
   const logs = await logsCol.find().toArray();
   if (logs.length === 0) {
-    console.log("ℹ️ No logs to rotate.");
+    console.log(" No logs to rotate.");
     return;
   }
 
@@ -17,7 +17,8 @@ async function rotateLogs() {
   for (const log of logs) {
     const key = `${log.ip}_${log.category}`;
     if (!grouped[key]) grouped[key] = { ip: log.ip, category: log.category, messages: [] };
-    grouped[key].messages.push(log.message);
+    const logLine = log.timestamp + log.message
+    grouped[key].messages.push(logLine);
   }
 
   const timestamp = new Date();
@@ -46,7 +47,7 @@ async function rotateLogs() {
 
 // ตั้ง cron job ทุก 2 ชั่วโมง 00:00 02:00 04:00 06:00
 // cron.schedule("* */2 * * * *", () => {
-//   console.log("🔄 rotateLogs triggered");
+//   console.log("rotateLogs triggered");
 //   rotateLogs();
 // });
 console.log("Cron job initialized (every 2 hours)");

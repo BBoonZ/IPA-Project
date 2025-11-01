@@ -7,16 +7,18 @@
 
 /* พื้นหลังและ layout */
 body {
-    background: linear-gradient(135deg, #0078ff, #00bcd4);
-    color: #333;
+    background-color: #0d0d0d;
+    color: #33ff33;
     min-height: 100vh;
+    font-family: "Courier New", monospace;
 }
 
 /* ส่วนหัว */
 header.main {
-    color: white;
+    color: #00ff99;
     padding: 2rem;
     text-align: center;
+    text-shadow: 0 0 5px #00ff99;
 }
 
 header.main h1 {
@@ -27,6 +29,7 @@ header.main h1 {
 header.main h2 {
     font-weight: 400;
     margin-bottom: 1.5rem;
+    color: #33ff33;
 }
 
 /* ฟอร์ม */
@@ -42,68 +45,75 @@ label {
     font-size: 1rem;
     align-self: flex-start;
     margin-left: 30%;
+    color: #33ff33;
 }
 
 input {
     width: 40%;
     padding: 0.6rem 0.8rem;
-    border: 1px solid #ccc;
+    border: 1px solid #33ff33;
     border-radius: 8px;
     outline: none;
+    background-color: #111;
+    color: #33ff33;
     transition: all 0.2s ease;
 }
 
 input:focus {
-    border-color: #0078ff;
-    box-shadow: 0 0 4px rgba(0, 120, 255, 0.5);
+    border-color: #00ff99;
+    box-shadow: 0 0 6px #00ff99;
 }
 
 /* ปุ่ม */
 button[type="submit"] {
-    background-color: #0078ff;
-    color: white;
+    background-color: #00ff99;
+    color: #0d0d0d;
     font-weight: 600;
-    border: none;
-    border-radius: 8px;
+    border: 1px solid #00ff99;
+    border-radius: 6px;
     padding: 0.6rem 1.5rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 0 8px #00ff99, 0 0 12px #00ff99 inset;
+    text-shadow: 0 0 4px #00ff99;
 }
 
 button[type="submit"]:hover {
-    background-color: #005fcc;
-    transform: translateY(-2px);
+    background-color: #33ff33;
+    box-shadow: 0 0 12px #00ff99, 0 0 16px #00ff99 inset;
+    transform: translateY(-1px);
 }
 
 /* ตาราง Router */
 .container {
     margin: 2rem auto;
     width: 85%;
-    background: white;
+    background: #111;
     border-radius: 10px;
     padding: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px #00ff99;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
+    color: #33ff33;
 }
 
 thead {
-    background-color: #0078ff;
-    color: white;
+    background-color: #00ff99;
+    color: #0d0d0d;
 }
 
 th,
 td {
     padding: 0.75rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #33ff33;
 }
 
 tbody tr:hover {
-    background-color: #f9f9f9;
+    background-color: #003300;
 }
 
 /* สไตล์พื้นฐาน */
@@ -111,52 +121,86 @@ tbody tr:hover {
     font-weight: bold;
     padding: 4px 8px;
     border-radius: 6px;
-    color: white;
     text-align: center;
+    color: #0d0d0d;
+    background-color: #33ff33;
 }
 
 /* สีตามสถานะ */
 .status.connecting {
-    color: #ffa500;
-    /* ส้ม */
+    color: #0d0d0d;
+    background-color: #ffaa00; /* ส้ม */
 }
 
 .status.connected {
-    color: #28a745;
-    /* เขียว */
+    color: #0d0d0d;
+    background-color: #28a745; /* เขียว */
 }
 
 .status.failed {
-    color: #dc3545;
-    /* แดง */
+    color: #0d0d0d;
+    background-color: #dc3545; /* แดง */
 }
 
 /* ปุ่มจัดการ */
 button.edit {
-    background-color: #ffa500;
-    color: white;
-    border: none;
-    padding: 6px 12px;
+    background-color: #ffaa00;
+    color: #0d0d0d;
+    border: 1px solid #ffaa00;
     border-radius: 6px;
+    padding: 6px 12px;
     margin-right: 6px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 6px #ffaa00, 0 0 12px #ffaa00 inset;
+    text-shadow: 0 0 3px #ffaa00;
 }
 
 button.edit:hover {
-    background-color: #e08e00;
+    background-color: #ffcc33;
+    box-shadow: 0 0 12px #ffaa00, 0 0 18px #ffaa00 inset;
 }
 
 button.delete {
     background-color: #ff4d4f;
-    color: white;
-    border: none;
-    padding: 6px 12px;
+    color: #0d0d0d;
+    border: 1px solid #ff4d4f;
     border-radius: 6px;
+    padding: 6px 12px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 6px #ff4d4f, 0 0 12px #ff4d4f inset;
+    text-shadow: 0 0 3px #ff4d4f;
 }
 
 button.delete:hover {
-    background-color: #d9363e;
+    background-color: #ff6668;
+    box-shadow: 0 0 12px #ff4d4f, 0 0 18px #ff4d4f inset;
+}
+
+button.view {
+    background-color: #28a745;
+    color: #0d0d0d;
+    border: 1px solid #28a745;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 5px;
+    box-shadow: 0 0 6px #28a745, 0 0 12px #28a745 inset;
+    text-shadow: 0 0 3px #28a745;
+}
+
+button.view:hover {
+    background-color: #33cc33;
+    box-shadow: 0 0 12px #28a745, 0 0 18px #28a745 inset;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 22%, 24%, 55% { opacity: 0.6; }
+}
+
+button.edit, button.delete, button.view, button[type="submit"] {
+    animation: flicker 2s infinite;
 }

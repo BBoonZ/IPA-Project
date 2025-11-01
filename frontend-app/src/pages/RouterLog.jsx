@@ -1,5 +1,5 @@
 import { useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import LogDisplay from "../components/LogDisplay";
 import "../css/RouterLog.css";
 
@@ -44,10 +44,11 @@ export default function RouterLog() {
           };
   
           data.forEach(log => {
+            const logLine = log.timestamp + log.message;
             if (newLogs[log.category]) {
-              newLogs[log.category].push(log.message);
+              newLogs[log.category].push(logLine);
             } else {
-              newLogs[log.category] = [log.message];
+              newLogs[log.category] = [logLine];
             }
           });
   
@@ -96,28 +97,38 @@ export default function RouterLog() {
       : allLogs[selected] || [];
 
  // Download Selected File
-  const handleDownload = async () => {
-    try {
-      const name = selectedFile || selected;
-      const res = await fetch(`/api/${name}`);
-      if (!res.ok) throw new Error("Download failed");
-
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${name}.log`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      alert("❌ Error downloading log: " + err.message);
+ const handleDownload = () => {
+  try {
+    if (!displayLogs || displayLogs.length === 0) {
+      alert("❌ No logs to download");
+      return;
     }
-  };
+
+    const name = selectedFile || selected || "logs";
+    
+    // รวมแต่ละ log line เป็น text
+    const text = displayLogs.join("\n");
+
+    // สร้าง blob
+    const blob = new Blob([text], { type: "text/plain" });
+    const url = window.URL.createObjectURL(blob);
+
+    // สร้างลิงก์ดาวน์โหลดชั่วคราว
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.log`;
+    a.click();
+
+    // ล้าง object URL
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    alert("❌ Error downloading log: " + err.message);
+  }
+};
 
   return (
     <div className="everylog-container">
-      <h1 className="everylog-title">EveryLog</h1>
+      <h1 className="everylog-title"><Link to="/" style={{ textDecoration: "none", color: "inherit" }}>EveryLog</Link></h1>
       <h3 className="router-ip">Router IP: 192.168.1.1</h3>
       <div className="everylog-layout">
         {/* Sidebar */}
