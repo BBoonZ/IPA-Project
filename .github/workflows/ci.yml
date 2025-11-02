@@ -100,30 +100,32 @@ jobs:
   notify_status:
     runs-on: ubuntu-latest
     needs: [build_and_test, python_security_scan]
-    if: always()
+    if: always() # ยังคงทำงานเสมอ
     steps:
       - name: Send Discord notification on success
         if: ${{ needs.build_and_test.result == 'success' && needs.python_security_scan.result == 'success' }}
-        uses: rjstone/discord-webhook-notify@v1
+        uses: sarisia/actions-status-discord@v1
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          text: |
-            ✅ **CI ผ่านทั้งหมด (Node.js & Python)**
+          webhook: ${{ secrets.DISCORD_WEBHOOK }} # เปลี่ยนจาก webhookUrl เป็น webhook
+          status: success
+          title: '✅ CI ผ่านทั้งหมด (Node.js & Python)'
+          description: |
             Commit: `${{ github.sha }}`
             Branch: `${{ github.ref_name }}`
             [🔍 ดูรายละเอียดการรัน](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          color: "3447003"
+          color: 3447003 # ใช้เลขสีเดิมได้เลย
 
       - name: Send Discord notification on failure
         if: ${{ needs.build_and_test.result == 'failure' || needs.python_security_scan.result == 'failure' }}
-        uses: rjstone/discord-webhook-notify@v1
+        uses: sarisia/actions-status-discord@v1
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          text: |
-            ❌ **CI ล้มเหลว**
+          webhook: ${{ secrets.DISCORD_WEBHOOK }} # เปลี่ยนจาก webhookUrl เป็น webhook
+          status: failure
+          title: '❌ CI ล้มเหลว'
+          description: |
             Commit: `${{ github.sha }}`
             Branch: `${{ github.ref_name }}`
             - Node.js: `${{ needs.build_and_test.result }}`
             - Python Scan: `${{ needs.python_security_scan.result }}`
             [⚠️ ดู logs ที่นี่](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          color: "15158332"
+          color: 15158332 # ใช้เลขสีเดิมได้เลย
