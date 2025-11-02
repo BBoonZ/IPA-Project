@@ -55,7 +55,7 @@ def save_logs(router_ip, data):
         if not line:
             continue
 
-        log_hash = hashlib.md5(f"{router_ip}{line}".encode()).hexdigest()
+        log_hash = hashlib.sha256(f"{router_ip}{line}".encode()).hexdigest()
         category = []
 
         if "interface" in line.lower():
