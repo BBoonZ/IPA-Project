@@ -27,7 +27,7 @@ jobs:
       - name: Create .env
         run: |
           {
-            echo "MONGO_URL=${{ secrets.MONGO_URL }}"
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}"
             echo "MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}"
             echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}"
             echo "DB_NAME=${{ secrets.DB_NAME }}"
@@ -40,7 +40,7 @@ jobs:
       - name: Create Backend .env
         run: |
           {
-            echo "MONGO_URL=${{ secrets.MONGO_URL }}"
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}"
             echo "DB_NAME=${{ secrets.DB_NAME }}"
             echo "PORT"="4000"
           } > backend-app/.env
