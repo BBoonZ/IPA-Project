@@ -129,7 +129,7 @@ export default function RouterLog() {
   return (
     <div className="everylog-container">
       <h1 className="everylog-title"><Link to="/" style={{ textDecoration: "none", color: "inherit" }}>EveryLog</Link></h1>
-      <h3 className="router-ip">Router IP: 192.168.1.1</h3>
+      <h3 className="router-ip">Router IP: ${ip}</h3>
       <div className="everylog-layout">
         {/* Sidebar */}
         <div className="sidebar">
