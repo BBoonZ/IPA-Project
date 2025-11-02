@@ -43,7 +43,6 @@ export default function RouterLog() {
           };
 
           data.forEach((log) => {
-
             // ตรวจว่าหมวดเป็น array หรือไม่
             const categories = Array.isArray(log.category)
               ? log.category
