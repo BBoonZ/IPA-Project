@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   const { ip } = req.query;
 
   const filter = ip ? { ip } : {};
-  const logs = await db.collection("logs").find(filter).toArray();
+  const logs = await db.collection("router_log").find(filter).toArray();
   res.json(logs);
 });
 
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "ip, category, message required" });
 
   const db = await connectDB();
-  const result = await db.collection("logs").insertOne({
+  const result = await db.collection("router_log").insertOne({
     ip,
     category,
     message,

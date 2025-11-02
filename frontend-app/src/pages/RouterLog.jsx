@@ -43,7 +43,6 @@ export default function RouterLog() {
           };
 
           data.forEach((log) => {
-            const logLine = log.timestamp + " " + log.message;
 
             // ตรวจว่าหมวดเป็น array หรือไม่
             const categories = Array.isArray(log.category)
@@ -52,9 +51,9 @@ export default function RouterLog() {
 
             categories.forEach((cat) => {
               if (newLogs[cat]) {
-                newLogs[cat].push(logLine);
+                newLogs[cat].push(log.message);
               } else {
-                newLogs[cat] = [logLine];
+                newLogs[cat] = [log.message];
               }
             });
           });
@@ -133,7 +132,7 @@ export default function RouterLog() {
           EveryLog
         </Link>
       </h1>
-      <h3 className="router-ip">Router IP: ${ip}</h3>
+      <h3 className="router-ip">Router IP: {ip}</h3>
       <div className="everylog-layout">
         {/* Sidebar */}
         <div className="sidebar">

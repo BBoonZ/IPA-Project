@@ -18,14 +18,13 @@ async function rotateLogs() {
     const categories = Array.isArray(log.category)
       ? log.category
       : [log.category];
-    const logLine = log.timestamp + " " + log.message;
 
     // push log เข้าแต่ละ category
     for (const cat of categories) {
       const key = `${log.ip}_${cat}`;
       if (!grouped[key])
         grouped[key] = { ip: log.ip, category: cat, messages: [] };
-      grouped[key].messages.push(logLine);
+      grouped[key].messages.push(log.message);
     }
   }
 
@@ -57,9 +56,9 @@ async function rotateLogs() {
 }
 
 // ตั้ง cron job ทุก 2 ชั่วโมง (วินาที, นาที, ชั่วโมง)
-// cron.schedule("*/30 * * * * *", () => {
-//   console.log("rotateLogs triggered");
-//   rotateLogs();
-// });
+cron.schedule("* * */1 * * *", () => {
+  console.log("rotateLogs triggered");
+  rotateLogs();
+});
 
 console.log("Cron job initialized (every 2 hours)");
