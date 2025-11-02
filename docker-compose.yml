@@ -76,6 +76,8 @@ services:
       - RABPASS=${RABPASS}
     volumes:
       - ./schedule:/app
+    env_file:
+      - schedule/.env
     depends_on:
       - rabbitmq
       - mongodb
@@ -94,6 +96,8 @@ services:
       - RABPASS=${RABPASS}
     volumes:
       - ./worker:/app
+    env_file:
+      - worker/.env
     depends_on:
       - rabbitmq
       - mongodb
