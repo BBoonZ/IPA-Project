@@ -37,11 +37,11 @@ export default function HomePage() {
           object_id: _id,
           ip,
           username,
-          password
-        })
+          password,
+        }),
       });
-      const data = await res.json()
-      console.log(data)
+      const data = await res.json();
+      console.log(data);
 
       const updated = [...routers];
       updated[editIndex] = newRouter;
@@ -54,18 +54,18 @@ export default function HomePage() {
         body: JSON.stringify({
           ip,
           username,
-          password
-        })
+          password,
+        }),
       });
-      const data = await res.json()
-      console.log(data.insertedId)
+      const data = await res.json();
+      console.log(data.insertedId);
 
       const newRouter = {
         ip,
         username,
         password,
-        _id: data.insertedId
-      }
+        _id: data.insertedId,
+      };
       setRouters([...routers, newRouter]);
     }
 
@@ -76,16 +76,16 @@ export default function HomePage() {
   };
 
   const handleDelete = async (index) => {
-    const router = routers[index]
+    const router = routers[index];
     const res = await fetch("http://localhost:4000/api/routers/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        object_id: router._id
-      })
+        object_id: router._id,
+      }),
     });
-    const data = await res.json()
-    console.log(data)
+    const data = await res.json();
+    console.log(data);
 
     const filtered = routers.filter((_, i) => i !== index);
     setRouters(filtered);
@@ -97,7 +97,7 @@ export default function HomePage() {
     setUsername(router.username);
     setPassword(router.password);
     setEditIndex(index);
-    setObject_id(router._id)
+    setObject_id(router._id);
   };
 
   return (
@@ -163,21 +163,15 @@ export default function HomePage() {
                   <td>{r.password}</td>
                   {/* <td>{r._id}</td> */}
                   <td>
-                    <button
-                      className="edit"
-                      onClick={() => handleEdit(i)}
-                    >
+                    <button className="edit" onClick={() => handleEdit(i)}>
                       แก้ไข
                     </button>
-                    <button
-                      className="delete"
-                      onClick={() => handleDelete(i)}
-                    >
+                    <button className="delete" onClick={() => handleDelete(i)}>
                       ลบ
                     </button>
                     <button
                       className="view"
-                      onClick={() => window.location.href = `/router/${r.ip}`}
+                      onClick={() => (window.location.href = `/router/${r.ip}`)}
                     >
                       ดูรายละเอียด
                     </button>

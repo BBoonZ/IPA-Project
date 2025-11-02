@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import LogDisplay from "../components/LogDisplay";
 import "../css/RouterLog.css";
@@ -28,12 +28,11 @@ export default function RouterLog() {
     "Config log": [],
   });
 
-
   useEffect(() => {
     const fetchLogs = () => {
       fetch(`http://localhost:4000/api/logs?ip=${ip}`)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           const newLogs = {
             "Centralized log": [],
             "Interface log": [],
@@ -42,14 +41,16 @@ export default function RouterLog() {
             "DNS log": [],
             "Config log": [],
           };
-  
-          data.forEach(log => {
+
+          data.forEach((log) => {
             const logLine = log.timestamp + " " + log.message;
-  
+
             // ตรวจว่าหมวดเป็น array หรือไม่
-            const categories = Array.isArray(log.category) ? log.category : [log.category];
-  
-            categories.forEach(cat => {
+            const categories = Array.isArray(log.category)
+              ? log.category
+              : [log.category];
+
+            categories.forEach((cat) => {
               if (newLogs[cat]) {
                 newLogs[cat].push(logLine);
               } else {
@@ -57,78 +58,81 @@ export default function RouterLog() {
               }
             });
           });
-  
+
           setAllLogs(newLogs);
         })
-        .catch(err => console.error("Fetch error:", err));
+        .catch((err) => console.error("Fetch error:", err));
     };
-  
+
     fetchLogs(); // fetch ครั้งแรก
     const interval = setInterval(fetchLogs, 20000); // fetch ทุก 20 วินาที
-  
+
     return () => clearInterval(interval); // ล้าง interval เวลา component unmount
   }, [ip]);
 
-  const [allLogFiles, setAllLogFiles] = useState({})
+  const [allLogFiles, setAllLogFiles] = useState({});
 
   useEffect(() => {
     const fetchLogs = () => {
       fetch(`http://localhost:4000/api/logs/file?ip=${ip}`)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           // สร้าง object ใหม่โดยใช้ filename เป็น key และ logs เป็น value
           const newLogFiles = {};
-  
-          data.forEach(logFile => {
+
+          data.forEach((logFile) => {
             newLogFiles[logFile.filename] = logFile.logs;
           });
-  
+
           setAllLogFiles(newLogFiles);
         })
-        .catch(err => console.error("Fetch error:", err));
+        .catch((err) => console.error("Fetch error:", err));
     };
-  
+
     fetchLogs(); // fetch ครั้งแรก
     const interval = setInterval(fetchLogs, 20000); // fetch ทุก 20 วินาที
-  
+
     return () => clearInterval(interval); // ล้าง interval เวลา component unmount
   }, []);
-  
 
   const displayLogs =
     selectedFile && allLogFiles[selectedFile]
       ? allLogFiles[selectedFile]
       : allLogs[selected] || [];
 
- // Download Selected File
- const handleDownload = () => {
-  try {
-    if (!displayLogs || displayLogs.length === 0) {
-      alert("❌ No logs to download");
-      return;
+  // Download Selected File
+  const handleDownload = () => {
+    try {
+      if (!displayLogs || displayLogs.length === 0) {
+        alert("❌ No logs to download");
+        return;
+      }
+
+      const name = selectedFile || selected || "logs";
+
+      const text = displayLogs.join("\n");
+
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${name}.log`;
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert("❌ Error downloading log: " + err.message);
     }
-
-    const name = selectedFile || selected || "logs";
-    
-    const text = displayLogs.join("\n");
-
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${name}.log`;
-    a.click();
-
-    window.URL.revokeObjectURL(url);
-  } catch (err) {
-    alert("❌ Error downloading log: " + err.message);
-  }
-};
+  };
 
   return (
     <div className="everylog-container">
-      <h1 className="everylog-title"><Link to="/" style={{ textDecoration: "none", color: "inherit" }}>EveryLog</Link></h1>
+      <h1 className="everylog-title">
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          EveryLog
+        </Link>
+      </h1>
       <h3 className="router-ip">Router IP: ${ip}</h3>
       <div className="everylog-layout">
         {/* Sidebar */}
@@ -155,7 +159,10 @@ export default function RouterLog() {
               <button className="header-btn" onClick={handleDownload}>
                 <i className="fa-solid fa-download"></i> Download
               </button>
-              <button className="header-btn" onClick={() => setShowFiles(!showFiles)}>
+              <button
+                className="header-btn"
+                onClick={() => setShowFiles(!showFiles)}
+              >
                 <i className="fa-solid fa-folder-open"></i> File
               </button>
             </div>
@@ -188,7 +195,6 @@ export default function RouterLog() {
           </div>
         )}
       </div>
-
     </div>
   );
 }

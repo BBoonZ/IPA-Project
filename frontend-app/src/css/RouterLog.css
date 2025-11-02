@@ -14,7 +14,9 @@
   font-weight: 600;
   margin: 20px 0;
   color: #00ff99;
-  text-shadow: 0 0 8px #00ff99, 0 0 16px #00ff99;
+  text-shadow:
+    0 0 8px #00ff99,
+    0 0 16px #00ff99;
 }
 
 .everylog-layout {
@@ -39,7 +41,9 @@
   margin: 4px 0;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
   color: #33ff33;
 }
 
@@ -118,7 +122,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
   color: #33ff33;
 }
 
