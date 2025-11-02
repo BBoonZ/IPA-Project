@@ -84,9 +84,13 @@ jobs:
             pip install bandit safety
 
         - name: 4. Run Safety Scan (Schedule)
+          env:
+            SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
           run: safety scan -r schedule/requirements.txt
 
         - name: 5. Run Safety Scan (Worker)
+          env:
+            SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
           run: safety scan -r worker/requirements.txt
 
         - name: 6. Run Bandit Scan (All Python code)
