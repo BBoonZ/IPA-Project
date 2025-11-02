@@ -7,6 +7,8 @@ services:
     environment:
       - MONGO_URI=${MONGO_URI}
       - DB_NAME=${DB_NAME}
+    env_file:
+      - backend-app/.env
     networks:
       - app-network
 
