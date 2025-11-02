@@ -1,0 +1,52 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: [self-hosted, Linux, X64]
+    environment: production
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create .env
+        run: |
+          {
+            echo "MONGO_URL=${{ secrets.MONGO_URL }}"
+            echo "MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}"
+            echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}"
+            echo "DB_NAME=${{ secrets.DB_NAME }}"
+            echo "RABHOST=${{ secrets.RABHOST }}"
+            echo "RABUSER=${{ secrets.RABUSER }}"
+            echo "RABPASS=${{ secrets.RABPASS }}"
+          } > .env
+          chmod 600 .env
+      
+      - name: Create Backend .env
+        run: |
+          {
+            echo "MONGO_URL=${{ secrets.MONGO_URL }}"
+            echo "DB_NAME=${{ secrets.DB_NAME }}"
+            echo "PORT"="4000"
+          } > backend-app/.env
+          chmod 600 backend-app/.env
+
+      - name: Up (pull from Hub, no build on prod)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --pull always --no-build
+          docker compose ps
