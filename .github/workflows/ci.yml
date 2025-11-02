@@ -99,29 +99,31 @@ jobs:
   # ===== Notification =====
   notify_status:
     runs-on: ubuntu-latest
-
     needs: [build_and_test, python_security_scan]
-
-    if: always() 
+    if: always()
     steps:
       - name: Send Discord notification on success
-        if: ${{ needs.build_and_test_node.result == 'success' && needs.python_security_scan.result == 'success' }}
-        uses: rjstone/discord-webhook-notify@v1
-        with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          text: "✅ CI ผ่านทั้งหมด (Node.js & Python)\nBuild สำหรับ commit `${{ github.sha }}` ผ่านฉลุย!"
-          color: "3447003"
-
-      - name: Send Discord notification on failure
-        if: ${{ needs.build_and_test_node.result == 'failure' || needs.python_security_scan.result == 'failure' }}
+        if: ${{ needs.build_and_test.result == 'success' && needs.python_security_scan.result == 'success' }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           text: |
-            ❌ CI ล้มเหลว!
-            Build สำหรับ commit `${{ github.sha }}` พัง!
-            - Node.js Build/Test: `${{ needs.build_and_test_node.result }}`
-            - Python Security Scan: `${{ needs.python_security_scan.result }}`
-            [ดู logs ที่นี่](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          color: "15158332"
+            ✅ **CI ผ่านทั้งหมด (Node.js & Python)**
+            Commit: `${{ github.sha }}`
+            Branch: `${{ github.ref_name }}`
+            [🔍 ดูรายละเอียดการรัน](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          color: "3447003"
 
+      - name: Send Discord notification on failure
+        if: ${{ needs.build_and_test.result == 'failure' || needs.python_security_scan.result == 'failure' }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          text: |
+            ❌ **CI ล้มเหลว**
+            Commit: `${{ github.sha }}`
+            Branch: `${{ github.ref_name }}`
+            - Node.js: `${{ needs.build_and_test.result }}`
+            - Python Scan: `${{ needs.python_security_scan.result }}`
+            [⚠️ ดู logs ที่นี่](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          color: "15158332"
