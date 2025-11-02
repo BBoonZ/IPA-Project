@@ -15,6 +15,16 @@ jobs:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          clean: true
+
+      - name: Fix permissions
+        run: |
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+          sudo find $GITHUB_WORKSPACE -type d -name "__pycache__" -exec rm -rf {} +
+
       - name: Check out code
         uses: actions/checkout@v4
 
