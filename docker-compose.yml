@@ -78,7 +78,7 @@ services:
       - ./schedule:/app
     depends_on:
       - rabbitmq
-      - mongo
+      - mongodb
     networks:
       - app-network
 
@@ -96,7 +96,7 @@ services:
       - ./worker:/app
     depends_on:
       - rabbitmq
-      - mongo
+      - mongodb
     networks:
       - app-network
 
