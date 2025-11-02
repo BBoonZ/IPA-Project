@@ -88,7 +88,7 @@ services:
       dockerfile: Dockerfile
     container_name: worker
     environment:
-      - MONGO_URI=mongodb://${MONGO_USER}:${MONGO_PASS}@mongo:27017/${DB_NAME}?authSource=admin
+      - MONGO_URI=${MONGO_URI}
       - DB_NAME=${DB_NAME}
       - RABUSER=${RABUSER}
       - RABPASS=${RABPASS}
