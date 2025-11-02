@@ -13,7 +13,7 @@ def get_router_info():
 
     client = MongoClient(mongo_uri)
     db = client[db_name]
-    routers = db["routers"]
+    routers = db["router"]
 
     router_data = routers.find()
     print(router_data)   

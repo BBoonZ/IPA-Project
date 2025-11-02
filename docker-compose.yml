@@ -74,6 +74,7 @@ services:
       - DB_NAME=${DB_NAME}
       - RABUSER=${RABUSER}
       - RABPASS=${RABPASS}
+      - PYTHONUNBUFFERED=1
     volumes:
       - ./schedule:/app
     env_file:
@@ -94,6 +95,7 @@ services:
       - DB_NAME=${DB_NAME}
       - RABUSER=${RABUSER}
       - RABPASS=${RABPASS}
+      - PYTHONUNBUFFERED=1
     volumes:
       - ./worker:/app
     env_file:

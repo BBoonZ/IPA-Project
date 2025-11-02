@@ -54,7 +54,7 @@ jobs:
             echo "RABUSER=${{ secrets.RABUSER }}"
             echo "RABPASS=${{ secrets.RABPASS }}"
           } > schedule/.env
-          chmod 600 backend-app/.env
+          chmod 600 schedule/.env
 
       - name: Create Worker .env
         run: |
@@ -64,7 +64,7 @@ jobs:
             echo "RABUSER=${{ secrets.RABUSER }}"
             echo "RABPASS=${{ secrets.RABPASS }}"
           } > worker/.env
-          chmod 600 backend-app/.env
+          chmod 600 worker/.env
 
       - name: Up (pull from Hub, no build on prod)
         run: |
