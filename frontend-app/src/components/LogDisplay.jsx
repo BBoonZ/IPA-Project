@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/LogDisplay.css";
 
-function LogDisplay({ _title, logs }) {
+function LogDisplay({ logs }) {
   return (
     <div className="log-display">
       {/* <h3 className="log-title">{title}</h3> */}
