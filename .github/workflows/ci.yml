@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # ===== Backend =====
+      - name: Install backend dependencies
+        working-directory: backend-app
+        run: npm install
+
+      - name: Lint backend code
+        working-directory: backend-app
+        run: npm run lint --if-present
+
+      - name: Format check (backend)
+        working-directory: backend-app
+        run: npm run format:check --if-present
+
+      - name: Run backend tests
+        working-directory: backend-app
+        run: npm test --if-present
+
+      - name: Build backend
+        working-directory: backend-app
+        run: npm run build --if-present
+
+      # ===== Frontend =====
+      - name: Install frontend dependencies
+        working-directory: frontend-app
+        run: npm install
+
+      - name: Lint frontend code
+        working-directory: frontend-app
+        run: npm run lint --if-present
+
+      - name: Format check (frontend)
+        working-directory: frontend-app
+        run: npm run format:check --if-present
+
+      - name: Run frontend tests
+        working-directory: frontend-app
+        run: npm test --if-present
+
+      - name: Build frontend
+        working-directory: frontend-app
+        run: npm run build
