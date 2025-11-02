@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/logs", logsRouter);
-app.use("/api/routers", Routers)
+app.use("/api/routers", Routers);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

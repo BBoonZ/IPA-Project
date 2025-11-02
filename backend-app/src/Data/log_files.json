@@ -1,86 +1,84 @@
-[{
-  "_id": {
-    "$oid": "69064c44d97e33e859c05bb9"
+[
+  {
+    "_id": {
+      "$oid": "69064c44d97e33e859c05bb9"
+    },
+    "ip": "192.168.1.1",
+    "filename": "File-Centralized-log-202511011807",
+    "category": "Centralized log",
+    "created_at": {
+      "$date": "2025-11-01T18:07:00.013Z"
+    },
+    "logs": [
+      "2025-10-23T08:00:00Z[INFO] Router system initialized",
+      "2025-10-23T08:05:00Z[WARNING] CPU usage high (87%)"
+    ]
   },
-  "ip": "192.168.1.1",
-  "filename": "File-Centralized-log-202511011807",
-  "category": "Centralized log",
-  "created_at": {
-    "$date": "2025-11-01T18:07:00.013Z"
+  {
+    "_id": {
+      "$oid": "69064c44d97e33e859c05bba"
+    },
+    "ip": "192.168.1.2",
+    "filename": "File-Interface-log-202511011807",
+    "category": "Interface log",
+    "created_at": {
+      "$date": "2025-11-01T18:07:00.013Z"
+    },
+    "logs": [
+      "2025-10-23T09:00:00Z[INTERFACE] eth0 link up",
+      "2025-10-23T09:01:00Z[INTERFACE] eth1 down"
+    ]
   },
-  "logs": [
-    "2025-10-23T08:00:00Z[INFO] Router system initialized",
-    "2025-10-23T08:05:00Z[WARNING] CPU usage high (87%)"
-  ]
-},
-{
-  "_id": {
-    "$oid": "69064c44d97e33e859c05bba"
+  {
+    "_id": {
+      "$oid": "69064c44d97e33e859c05bbb"
+    },
+    "ip": "192.168.1.3",
+    "filename": "File-Security-log-202511011807",
+    "category": "Security log",
+    "created_at": {
+      "$date": "2025-11-01T18:07:00.013Z"
+    },
+    "logs": [
+      "2025-10-23T09:10:00Z[ERROR] Firewall dropped packet from 10.0.0.5"
+    ]
   },
-  "ip": "192.168.1.2",
-  "filename": "File-Interface-log-202511011807",
-  "category": "Interface log",
-  "created_at": {
-    "$date": "2025-11-01T18:07:00.013Z"
+  {
+    "_id": {
+      "$oid": "69064c44d97e33e859c05bbc"
+    },
+    "ip": "192.168.1.3",
+    "filename": "File-DHCP-log-202511011807",
+    "category": "DHCP log",
+    "created_at": {
+      "$date": "2025-11-01T18:07:00.013Z"
+    },
+    "logs": ["2025-10-23T09:15:00Z[DHCP] Lease granted to 192.168.1.15"]
   },
-  "logs": [
-    "2025-10-23T09:00:00Z[INTERFACE] eth0 link up",
-    "2025-10-23T09:01:00Z[INTERFACE] eth1 down"
-  ]
-},
-{
-  "_id": {
-    "$oid": "69064c44d97e33e859c05bbb"
+  {
+    "_id": {
+      "$oid": "69064c44d97e33e859c05bbd"
+    },
+    "ip": "192.168.1.1",
+    "filename": "File-DNS-log-202511011807",
+    "category": "DNS log",
+    "created_at": {
+      "$date": "2025-11-01T18:07:00.013Z"
+    },
+    "logs": [
+      "2025-10-23T09:20:00Z[DNS] Request www.google.com → 142.250.196.14"
+    ]
   },
-  "ip": "192.168.1.3",
-  "filename": "File-Security-log-202511011807",
-  "category": "Security log",
-  "created_at": {
-    "$date": "2025-11-01T18:07:00.013Z"
-  },
-  "logs": [
-    "2025-10-23T09:10:00Z[ERROR] Firewall dropped packet from 10.0.0.5"
-  ]
-},
-{
-  "_id": {
-    "$oid": "69064c44d97e33e859c05bbc"
-  },
-  "ip": "192.168.1.3",
-  "filename": "File-DHCP-log-202511011807",
-  "category": "DHCP log",
-  "created_at": {
-    "$date": "2025-11-01T18:07:00.013Z"
-  },
-  "logs": [
-    "2025-10-23T09:15:00Z[DHCP] Lease granted to 192.168.1.15"
-  ]
-},
-{
-  "_id": {
-    "$oid": "69064c44d97e33e859c05bbd"
-  },
-  "ip": "192.168.1.1",
-  "filename": "File-DNS-log-202511011807",
-  "category": "DNS log",
-  "created_at": {
-    "$date": "2025-11-01T18:07:00.013Z"
-  },
-  "logs": [
-    "2025-10-23T09:20:00Z[DNS] Request www.google.com → 142.250.196.14"
-  ]
-},
-{
-  "_id": {
-    "$oid": "69064c44d97e33e859c05bbe"
-  },
-  "ip": "192.168.1.2",
-  "filename": "File-Config-log-202511011807",
-  "category": "Config log",
-  "created_at": {
-    "$date": "2025-11-01T18:07:00.013Z"
-  },
-  "logs": [
-    "2025-10-23T09:25:00Z[CONFIG] Updated routing table"
-  ]
-}]
+  {
+    "_id": {
+      "$oid": "69064c44d97e33e859c05bbe"
+    },
+    "ip": "192.168.1.2",
+    "filename": "File-Config-log-202511011807",
+    "category": "Config log",
+    "created_at": {
+      "$date": "2025-11-01T18:07:00.013Z"
+    },
+    "logs": ["2025-10-23T09:25:00Z[CONFIG] Updated routing table"]
+  }
+]
