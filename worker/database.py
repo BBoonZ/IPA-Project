@@ -98,5 +98,3 @@ def save_logs(router_ip, data):
 
 if __name__ == "__main__":
     ip = "10.0.15.61"
-    username = "admin"
-    password = "cisco"
