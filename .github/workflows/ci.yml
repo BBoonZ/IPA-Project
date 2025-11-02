@@ -106,7 +106,7 @@ jobs:
     steps:
       - name: Send Discord notification on success
 
-        if: ${{ needs.build_and_test_node.result == 'success' && needs.python_security_scan.result == 'success' }}
+        if: ${{ needs.build_and_test.result == 'success' && needs.python_security_scan.result == 'success' }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
@@ -115,14 +115,14 @@ jobs:
           color: "3447003" 
 
       - name: Send Discord notification on failure
-        if: ${{ needs.build_and_test_node.result == 'failure' || needs.python_security_scan.result == 'failure' }}
+        if: ${{ needs.build_and_test.result == 'failure' || needs.python_security_scan.result == 'failure' }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           title: "❌ CI ล้มเหลว!"
           description: |
             Build สำหรับ commit `${{ github.sha }}` พัง!
-            - **Node.js Build/Test:** `${{ needs.build_and_test_node.result }}`
+            - **Node.js Build/Test:** `${{ needs.build_and_test.result }}`
             - **Python Security Scan:** `${{ needs.python_security_scan.result }}`
             [ดู logs ที่นี่](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           color: "15158332"
