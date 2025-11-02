@@ -46,6 +46,26 @@ jobs:
           } > backend-app/.env
           chmod 600 backend-app/.env
 
+      - name: Create Schedule .env
+        run: |
+          {
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}"
+            echo "DB_NAME=${{ secrets.DB_NAME }}"
+            echo "RABUSER=${{ secrets.RABUSER }}"
+            echo "RABPASS=${{ secrets.RABPASS }}"
+          } > schedule/.env
+          chmod 600 backend-app/.env
+
+      - name: Create Worker .env
+        run: |
+          {
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}"
+            echo "DB_NAME=${{ secrets.DB_NAME }}"
+            echo "RABUSER=${{ secrets.RABUSER }}"
+            echo "RABPASS=${{ secrets.RABPASS }}"
+          } > worker/.env
+          chmod 600 backend-app/.env
+
       - name: Up (pull from Hub, no build on prod)
         run: |
           docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
