@@ -3,7 +3,7 @@ import { connectDB } from "./db.js";
 
 async function rotateLogs() {
   const db = await connectDB();
-  const logsCol = db.collection("logs");
+  const logsCol = db.collection("router_log");
   const logFilesCol = db.collection("log_files");
 
   const logs = await logsCol.find().toArray();
@@ -56,7 +56,7 @@ async function rotateLogs() {
 }
 
 // ตั้ง cron job ทุก 2 ชั่วโมง (วินาที, นาที, ชั่วโมง)
-cron.schedule("* * */1 * * *", () => {
+cron.schedule("0 */20 * * * *", () => {
   console.log("rotateLogs triggered");
   rotateLogs();
 });
