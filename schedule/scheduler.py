@@ -11,16 +11,16 @@ def scheduler():
     count = 0
 
     while True:
-        # now = time.time()
-        # now_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(now))
-        # ms = int((now % 1) * 1000)
-        # now_str_with_ms = f"{now_str}.{ms:03d}"
-        # print(f"[{now_str_with_ms}] run #{count}")
+        now = time.time()
+        now_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(now))
+        ms = int((now % 1) * 1000)
+        now_str_with_ms = f"{now_str}.{ms:03d}"
+        print(f"[{now_str_with_ms}] run #{count}")
 
         try:
             for data in get_router_info():
                 body_bytes = json_util.dumps(data).encode("utf-8")
-                produce("localhost", body_bytes)
+                produce("rabbitmq", body_bytes)
         except Exception as e:
             print(e)
             time.sleep(3)

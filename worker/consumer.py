@@ -34,4 +34,4 @@ def consume(host):
 
 
 if __name__ == "__main__":
-    consume("localhost")
+    consume("rabbitmq")
