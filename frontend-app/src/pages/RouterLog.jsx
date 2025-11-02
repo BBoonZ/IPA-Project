@@ -44,12 +44,18 @@ export default function RouterLog() {
           };
   
           data.forEach(log => {
-            const logLine = log.timestamp + log.message;
-            if (newLogs[log.category]) {
-              newLogs[log.category].push(logLine);
-            } else {
-              newLogs[log.category] = [logLine];
-            }
+            const logLine = log.timestamp + " " + log.message;
+  
+            // ตรวจว่าหมวดเป็น array หรือไม่
+            const categories = Array.isArray(log.category) ? log.category : [log.category];
+  
+            categories.forEach(cat => {
+              if (newLogs[cat]) {
+                newLogs[cat].push(logLine);
+              } else {
+                newLogs[cat] = [logLine];
+              }
+            });
           });
   
           setAllLogs(newLogs);
@@ -61,7 +67,7 @@ export default function RouterLog() {
     const interval = setInterval(fetchLogs, 20000); // fetch ทุก 20 วินาที
   
     return () => clearInterval(interval); // ล้าง interval เวลา component unmount
-  }, []);
+  }, [ip]);
 
   const [allLogFiles, setAllLogFiles] = useState({})
 
@@ -89,8 +95,6 @@ export default function RouterLog() {
   }, []);
   
 
-
-  //ถ้ามีไฟล์เลือกแล้วให้แสดง logs จากไฟล์นั้น ถ้าไม่เลือกให้แสดง log ปัจจุบัน
   const displayLogs =
     selectedFile && allLogFiles[selectedFile]
       ? allLogFiles[selectedFile]
@@ -106,20 +110,16 @@ export default function RouterLog() {
 
     const name = selectedFile || selected || "logs";
     
-    // รวมแต่ละ log line เป็น text
     const text = displayLogs.join("\n");
 
-    // สร้าง blob
     const blob = new Blob([text], { type: "text/plain" });
     const url = window.URL.createObjectURL(blob);
 
-    // สร้างลิงก์ดาวน์โหลดชั่วคราว
     const a = document.createElement("a");
     a.href = url;
     a.download = `${name}.log`;
     a.click();
 
-    // ล้าง object URL
     window.URL.revokeObjectURL(url);
   } catch (err) {
     alert("❌ Error downloading log: " + err.message);

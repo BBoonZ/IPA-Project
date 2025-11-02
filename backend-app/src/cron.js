@@ -12,24 +12,26 @@ async function rotateLogs() {
     return;
   }
 
-  //แยก log ตาม ip + category
+  // แยก log ตาม ip + category
   const grouped = {};
   for (const log of logs) {
-    const key = `${log.ip}_${log.category}`;
-    if (!grouped[key]) grouped[key] = { ip: log.ip, category: log.category, messages: [] };
-    const logLine = log.timestamp + log.message
-    grouped[key].messages.push(logLine);
+    const categories = Array.isArray(log.category) ? log.category : [log.category];
+    const logLine = log.timestamp + " " + log.message;
+
+    // push log เข้าแต่ละ category
+    for (const cat of categories) {
+      const key = `${log.ip}_${cat}`;
+      if (!grouped[key]) grouped[key] = { ip: log.ip, category: cat, messages: [] };
+      grouped[key].messages.push(logLine);
+    }
   }
 
   const timestamp = new Date();
-  const dateLabel = timestamp
-    .toISOString()
-    .replace(/[-:T.Z]/g, "")
-    .slice(0, 12);
+  const dateLabel = timestamp.toISOString().replace(/[-:T.Z]/g, "").slice(0, 12);
 
+  // เขียนไฟล์ log แยกตาม ip + category
   for (const { ip, category, messages } of Object.values(grouped)) {
     const safeCategory = category.replace(/\s+/g, "-");
-    // const safeIP = ip.replace(/\./g, "-");
     const filename = `File-${safeCategory}-${dateLabel}`;
 
     await logFilesCol.insertOne({
@@ -41,13 +43,15 @@ async function rotateLogs() {
     });
   }
 
+  // ลบ log เดิมออก
   await logsCol.deleteMany({});
-  console.log(`Log rotation complete for ${Object.keys(grouped).length} router(s)`);
+  console.log(`Log rotation complete for ${Object.keys(grouped).length} router/category group(s).`);
 }
 
-// ตั้ง cron job ทุก 2 ชั่วโมง 00:00 02:00 04:00 06:00
-// cron.schedule("* */2 * * * *", () => {
+// ตั้ง cron job ทุก 2 ชั่วโมง (วินาที, นาที, ชั่วโมง)
+// cron.schedule("*/30 * * * * *", () => {
 //   console.log("rotateLogs triggered");
 //   rotateLogs();
 // });
+
 console.log("Cron job initialized (every 2 hours)");

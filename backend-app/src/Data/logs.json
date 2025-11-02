@@ -1,0 +1,51 @@
+[
+  {
+    "ip": "192.168.1.1",
+    "category": ["Centralized log", "Security log"],
+    "message": "System rebooted successfully.",
+    "timestamp": "2025-11-02T06:00:00Z",
+    "hash": "a9f4b1c7d2e01"
+  },
+  {
+    "ip": "192.168.1.1",
+    "category": ["Interface log"],
+    "message": "Interface eth0 link up, speed 1Gbps.",
+    "timestamp": "2025-11-02T06:10:00Z",
+    "hash": "b3c88a1e6f2da"
+  },
+  {
+    "ip": "192.168.1.2",
+    "category": ["DHCP log", "DNS log"],
+    "message": "DHCP lease granted to 192.168.1.10.",
+    "timestamp": "2025-11-02T06:12:00Z",
+    "hash": "d1aa203b7f42f"
+  },
+  {
+    "ip": "192.168.1.3",
+    "category": ["Config log"],
+    "message": "Admin updated routing table.",
+    "timestamp": "2025-11-02T06:20:00Z",
+    "hash": "e41f32aa5b118"
+  },
+  {
+    "ip": "192.168.1.2",
+    "category": ["Security log", "Interface log"],
+    "message": "Detected unusual inbound traffic on port 22.",
+    "timestamp": "2025-11-02T06:30:00Z",
+    "hash": "f62be3312cd09"
+  },
+  {
+    "ip": "192.168.1.3",
+    "category": ["DNS log"],
+    "message": "DNS query for example.com resolved.",
+    "timestamp": "2025-11-02T06:45:00Z",
+    "hash": "c7aa911dfe01a"
+  },
+  {
+    "ip": "192.168.1.4",
+    "category": ["Centralized log", "Config log"],
+    "message": "System configuration backup completed.",
+    "timestamp": "2025-11-02T07:00:00Z",
+    "hash": "aa71c39b8e5a2"
+  }
+]
