@@ -36,9 +36,74 @@ services:
     networks:
       - app-network
 
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      # - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_USER}
+      # - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_PASS}
+      - ME_CONFIG_MONGODB_SERVER=mongo
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABUSER}
+      - RABBITMQ_DEFAULT_PASS=${RABPASS}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app-network
+
+  scheduler:
+    build:
+      context: ./schedule
+      dockerfile: Dockerfile
+    container_name: scheduler
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - DB_NAME=${DB_NAME}
+      - RABUSER=${RABUSER}
+      - RABPASS=${RABPASS}
+    volumes:
+      - ./schedule:/app
+    depends_on:
+      - rabbitmq
+      - mongo
+    networks:
+      - app-network
+
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    container_name: worker
+    environment:
+      - MONGO_URI=mongodb://${MONGO_USER}:${MONGO_PASS}@mongo:27017/${DB_NAME}?authSource=admin
+      - DB_NAME=${DB_NAME}
+      - RABUSER=${RABUSER}
+      - RABPASS=${RABPASS}
+    volumes:
+      - ./worker:/app
+    depends_on:
+      - rabbitmq
+      - mongo
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
+  rabbitmq_data:
   mongo_data: {}
