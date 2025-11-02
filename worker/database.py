@@ -56,7 +56,7 @@ def save_logs(router_ip, data):
             continue
 
         log_hash = hashlib.sha256(f"{router_ip}{line}".encode()).hexdigest()
-        category = []
+        category = ["Centralized log"]
 
         if "interface" in line.lower():
             category.append("Interface log") 
@@ -68,10 +68,7 @@ def save_logs(router_ip, data):
             category.append("DNS log")
         if is_dhcp_log(line):
             category.append("DHCP log")
-        if not category:
-            category.append("Orther")
-        
-        
+
 
         data = {
             "ip": router_ip,

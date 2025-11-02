@@ -133,7 +133,7 @@ export default function RouterLog() {
           EveryLog
         </Link>
       </h1>
-      <h3 className="router-ip">Router IP: ${ip}</h3>
+      <h3 className="router-ip">Router IP: {ip}</h3>
       <div className="everylog-layout">
         {/* Sidebar */}
         <div className="sidebar">
