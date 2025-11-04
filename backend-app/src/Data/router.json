@@ -1,24 +1,26 @@
-[{
-  "_id": {
-    "$oid": "6906383b125b4cf3a02b2bbc"
+[
+  {
+    "_id": {
+      "$oid": "6906383b125b4cf3a02b2bbc"
+    },
+    "ip": "192.168.1.1",
+    "username": "admin",
+    "password": "abcd"
   },
-  "ip": "192.168.1.1",
-  "username": "admin",
-  "password": "abcd"
-},
-{
-  "_id": {
-    "$oid": "6906485b68bcc8893cbe51e7"
+  {
+    "_id": {
+      "$oid": "6906485b68bcc8893cbe51e7"
+    },
+    "ip": "10.0.15.62",
+    "username": "admin",
+    "password": "cisco"
   },
-  "ip": "10.0.15.62",
-  "username": "admin",
-  "password": "cisco"
-},
-{
-  "_id": {
-    "$oid": "6906492468bcc8893cbe51e8"
-  },
-  "ip": "10.0.15.61",
-  "username": "admin",
-  "password": "cisco"
-}]
+  {
+    "_id": {
+      "$oid": "6906492468bcc8893cbe51e8"
+    },
+    "ip": "10.0.15.61",
+    "username": "admin",
+    "password": "cisco"
+  }
+]
